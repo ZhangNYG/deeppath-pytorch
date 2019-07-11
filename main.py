@@ -9,7 +9,7 @@ from itertools import count
 import os, sys
 import time
 
-from networks import Policy_NN
+from networks import PolicyNet
 from utils import *
 from env import Env 
 from BFS.KB import KB 
@@ -21,7 +21,7 @@ relation_path = os.path.join(dataPath, 'tasks', relation, 'train_pos')
 
 
 def train():
-    policy_nn = Policy_NN(state_dim, action_space)
+    policy_nn = PolicyNet(state_dim, action_space)
     optimizer = optim.Adam(policy_nn.parameters(), lr=0.001)
 
     with open(relation_path) as f:

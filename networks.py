@@ -4,7 +4,7 @@ import torch.optim as optim
 import torch.nn.functional as F 
 import torchvision.transforms as T 
 
-class Policy_NN(nn.Module):
+class PolicyNet(nn.Module):
     def __init__(self, state_dim, action_dim):
         self.policy_nn = nn.Sequential(
             nn.Linear(state_dim, 512),
@@ -30,7 +30,7 @@ def policy_nn(state, state_dim, action_dim):
     return policy_nn(state)
 '''
 
-class Value_NN(nn.Module):
+class ValueNet(nn.Module):
     def __init__(self, state_dim):
         self.value_nn = nn.Sequential(
             nn.Linear(state_dim, 64),
