@@ -70,6 +70,8 @@ def train():
 
 def test(test_episode):
     policy_nn = PolicyNet(state_dim, action_space)
+    
+    print("Load pretrained model")
     policy_nn.load_state_dict(torch.load('models/policy_supervised_'+relation))
     policy_nn.eval()
 

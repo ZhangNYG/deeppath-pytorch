@@ -22,7 +22,22 @@ relation_path = os.path.join(dataPath, 'tasks', relation, 'train_pos')
 
 def retrain():
     print("Start retraining")
-    
+    policy_nn = PolicyNet(state_dim, action_space)
+
+    print("Load pretrained model")
+    policy_nn.load_state_dict(torch.load('models/policy_supervised_'+relation))
+    policy_nn.eval()
+
+    with open(relation_path) as f:
+        training_pairs = f.readlines()
+        episodes = len(training_pairs)
+        if episodes > 300:
+            episodes = 300
+        REINFORCE(training_pairs, policy_nn, episodes) 
+
+    print("Retrained model saved")
+    torch.save(policy_nn.state_dict(), 'models/policy_retrained_'+relation)
+
 
 def test():
     pass
