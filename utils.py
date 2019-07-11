@@ -1,4 +1,4 @@
-from __future__ import division
+
 import random
 from collections import namedtuple, Counter
 import numpy as np
@@ -46,20 +46,20 @@ def teacher(e1, e2, num_paths, env, path=None):
     intermediates = kb.pickRandomIntermediatesBetween(e1, e2, num_paths)
     res_entity_lists = []
     res_path_lists = []
-    for i in xrange(num_paths):
+    for i in range(num_paths):
         suc1, entity_list1, path_list1 = BFS(kb, e1, intermediates[i])
         suc2, entity_list2, path_list2 = BFS(kb, intermediates[i], e2)
         if suc1 and suc2:
             res_entity_lists.append(entity_list1 + entity_list2[1:])
             res_path_lists.append(path_list1 + path_list2)
-    print('BFS found paths:', len(res_path_lists))
+    print(('BFS found paths:', len(res_path_lists)))
 
     # ---------- clean the path --------
     res_entity_lists_new = []
     res_path_lists_new = []
     for entities, relations in zip(res_entity_lists, res_path_lists):
         rel_ents = []
-        for i in xrange(len(entities)+len(relations)):
+        for i in range(len(entities)+len(relations)):
             if i % 2 == 0:
                 rel_ents.append(entities[int(i/2)])
             else:
@@ -67,7 +67,7 @@ def teacher(e1, e2, num_paths, env, path=None):
 
         # print rel_ents
 
-        entity_stats = Counter(entities).items()
+        entity_stats = list(Counter(entities).items())
         duplicate_ents = [item for item in entity_stats if item[1] != 1]
         duplicate_ents.sort(key=lambda x: x[1], reverse=True)
         for item in duplicate_ents:
@@ -95,7 +95,7 @@ def teacher(e1, e2, num_paths, env, path=None):
     targetID = env.entity2id_[e2]
     for path in zip(res_entity_lists_new, res_path_lists_new):
         good_episode = []
-        for i in xrange(len(path[0]) - 1):
+        for i in range(len(path[0]) - 1):
             currID = env.entity2id_[path[0][i]]
             nextID = env.entity2id_[path[0][i+1]]
             state_curr = [currID, targetID, 0]
@@ -116,7 +116,7 @@ def path_clean(path):
             relations.append(item)
         else:
             entities.append(item)
-    entity_stats = Counter(entities).items()
+    entity_stats = list(Counter(entities).items())
     duplicate_ents = [item for item in entity_stats if item[1] != 1]
     duplicate_ents.sort(key=lambda x: x[1], reverse=True)
     for item in duplicate_ents:
@@ -135,5 +135,5 @@ def prob_norm(probs):
 
 
 if __name__ == '__main__':
-    print (prob_norm(np.array([1, 1, 1])))
+    print((prob_norm(np.array([1, 1, 1]))))
     #path_clean('/common/topic/webpage./common/webpage/category -> /m/08mbj5d -> /common/topic/webpage./common/webpage/category_inv -> /m/01d34b -> /common/topic/webpage./common/webpage/category -> /m/08mbj5d -> /common/topic/webpage./common/webpage/category_inv -> /m/0lfyx -> /common/topic/webpage./common/webpage/category -> /m/08mbj5d -> /common/topic/webpage./common/webpage/category_inv -> /m/01y67v -> /common/topic/webpage./common/webpage/category -> /m/08mbj5d -> /common/topic/webpage./common/webpage/category_inv -> /m/028qyn -> /people/person/nationality -> /m/09c7w0')

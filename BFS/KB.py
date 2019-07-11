@@ -3,7 +3,7 @@ class KB(object):
 		self.entities = {}
 
 	def addRelation(self, entity1, relation, entity2):
-		if self.entities.has_key(entity1):
+		if entity1 in self.entities:
 			self.entities[entity1].append(Path(relation, entity2))
 		else:
 			self.entities[entity1] = [Path(relation, entity2)]
@@ -30,9 +30,9 @@ class KB(object):
 		if num > len(self.entities) - 2:
 			raise ValueError('Number of Intermediates picked is larger than possible', 'num_entities: {}'.format(len(self.entities)), 'num_itermediates: {}'.format(num))
 		for i in range(num):
-			itermediate = random.choice(self.entities.keys())
+			itermediate = random.choice(list(self.entities.keys()))
 			while itermediate in res or itermediate == entity1 or itermediate == entity2:
-				itermediate = random.choice(self.entities.keys())
+				itermediate = random.choice(list(self.entities.keys()))
 			res.add(itermediate)
 		return list(res)
 
